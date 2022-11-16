@@ -157,7 +157,7 @@ class SapHanaDB_VBAK(RemoteBasePlugin):
                             "sap.HANADB_HOST" : self.host,
                             "flow.step_name" :"Sales_Document_Creation_in_VBAK",
                             "log.source" : "sap.vbak",
-                            "timestamp" : date,
+                            "timestamp" : str(date),
                             "severity" : LogLevel
                         }
                         log_json.append(log_payload)

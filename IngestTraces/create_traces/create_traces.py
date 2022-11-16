@@ -137,11 +137,12 @@ class CreateTraces():
 
     def run(self):
         logs_to_correlate = {}
+        previous_results = {}
         while (True):
             try:
                 querytime = dt.utcnow()
-                StartTime = querytime - timedelta(minutes=2)
-                EndTime = querytime - timedelta(minutes=1)
+                StartTime = querytime - timedelta(minutes=5)
+                EndTime = querytime
                 logger.info('starttime = '+StartTime.strftime("%Y-%m-%dT%H:%M:%S"))
                 logger.info('endtime = '+EndTime.strftime("%Y-%m-%dT%H:%M:%S"))
                 FomattedStartTime = StartTime.strftime("%Y-%m-%dT%H:%M:%S")
@@ -151,12 +152,25 @@ class CreateTraces():
                 logger.info(uri)
                 data = queryDynatraceAPI(uri, self.dt_token)
                 results = data.get('results')
+
                 for result in results:
                     correlation_id = result.get('additionalColumns').get(self.correlation_id)[0]
-                    logger.info("correlation_id = "+correlation_id)
-                    if logs_to_correlate.get(correlation_id) == None:
+                    if previous_results.get(correlation_id) == None:
+                        logger.info("Add new correlation_id = "+correlation_id)
+                        previous_results[correlation_id] = result
                         logs_to_correlate[correlation_id] = result
                 
+                # clean previous results to remove logs older that 5 minutes
+                keys_to_remove = []
+                for key, value in previous_results.items():
+                    timestamp = value.get('timestamp')
+                    utc_dt = dt.utcfromtimestamp(timestamp/1000)
+                    if utc_dt < StartTime:
+                        keys_to_remove.append(key)
+
+                for key in keys_to_remove:
+                    del previous_results[key]
+                    
                 # do a log search for each element in the dictionnary logs_to_correlate
                 keys = logs_to_correlate.keys()
                 length = len(keys)

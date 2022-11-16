@@ -239,6 +239,8 @@ class SapScpi(RemoteBasePlugin):
             Sender = result.get('Sender')
             LogStart = self.getFormattedDateFromTimestamp(result.get('LogStart'))
             LogEnd = self.getFormattedDateFromTimestamp(result.get('LogEnd'))
+            logger.info("LogStart = "+str(LogStart))
+            logger.info("LogEnd = "+str(LogEnd))
             log_content = { 
                 "IntegrationFlowName" : IntegrationFlowName,
                 "MessageGuid" : MessageGuid,
@@ -283,7 +285,7 @@ class SapScpi(RemoteBasePlugin):
                 "sap.cpi.Server" : self.scpi_server,
                 "flow.step_name" : IntegrationFlowName,
                 "log.source" : "sap.cpi",
-                "timestamp" : date_utc,
+                "timestamp" : str(date_utc),
                 "severity" : LogLevel
             }
             if Id not in self.previous_lines_sent:
