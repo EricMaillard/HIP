@@ -285,7 +285,7 @@ class SapScpi(RemoteBasePlugin):
                 "sap.cpi.Server" : self.scpi_server,
                 "flow.step_name" : IntegrationFlowName,
                 "log.source" : "sap.cpi",
-                "timestamp" : str(date_utc),
+                "timestamp" : date_utc.strftime("%Y-%m-%dT%H:%M:%S.%f"),
                 "severity" : LogLevel
             }
             if Id not in self.previous_lines_sent:
