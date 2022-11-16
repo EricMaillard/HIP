@@ -10,6 +10,10 @@ from datetime import datetime as dt, timedelta
 
 logger = logging.getLogger(__name__)
 
+def datetime_from_utc_to_local(utc_datetime):
+    now_timestamp = time.time()
+    offset = dt.fromtimestamp(now_timestamp) - dt.utcfromtimestamp(now_timestamp)
+    return utc_datetime + offset
 
 class SapHanaDB_EDIDC(RemoteBasePlugin):
 
@@ -131,12 +135,14 @@ class SapHanaDB_EDIDC(RemoteBasePlugin):
                         status = row[3]
                         cretim = row[4]
                         credat = row[5]
-                        date = ""+credat[0:4]+"-"+credat[4:6]+"-"+credat[6:8]+" "+cretim[0:2]+":"+cretim[2:4]+":"+cretim[4:6]
+                        date = ""+credat[0:4]+"-"+credat[4:6]+"-"+credat[6:8]+"T"+cretim[0:2]+":"+cretim[2:4]+":"+cretim[4:6]
+                        dt_date = dt.strptime(date, "%Y-%m-%dT%H:%M:%S")
+                        date_local = datetime_from_utc_to_local(dt_date)
                         log_content = { 
                             "salesforce.BusinessDocumentNumber" : refgrp,
                             "MessageGuid" : arckey,
                             "salesforce.ReplayId " : refmes,
-                            "timestamp" : date,
+                            "timestamp" : str(date_local),
                             "Status" : status
                         }
                         if status == "53":
@@ -152,6 +158,7 @@ class SapHanaDB_EDIDC(RemoteBasePlugin):
                             "sap.HANADB_HOST" : self.host,
                             "flow.step_name" :"IDoc_Order_In_EDIDC",
                             "log.source" : "sap.edidc",
+                            "timestamp" : date,
                             "severity" : LogLevel
                         }
                         log_json.append(log_payload)
@@ -175,12 +182,14 @@ class SapHanaDB_EDIDC(RemoteBasePlugin):
                         status = row[3]
                         cretim = row[4]
                         credat = row[5]
-                        date = ""+credat[0:4]+"-"+credat[4:6]+"-"+credat[6:8]+" "+cretim[0:2]+":"+cretim[2:4]+":"+cretim[4:6]
+                        date = ""+credat[0:4]+"-"+credat[4:6]+"-"+credat[6:8]+"T"+cretim[0:2]+":"+cretim[2:4]+":"+cretim[4:6]
+                        dt_date = dt.strptime(date, "%Y-%m-%dT%H:%M:%S")
+                        date_local = datetime_from_utc_to_local(dt_date)
                         log_content = { 
                             "salesforce.BusinessDocumentNumber" : refgrp,
                             "MessageGuid" : arckey,
                             "salesforce.ReplayId " : refmes,
-                            "timestamp" : date,
+                            "timestamp" : str(date_local),
                             "Status" : status
                         }
                         if status == "03" or status == "41":
@@ -196,6 +205,7 @@ class SapHanaDB_EDIDC(RemoteBasePlugin):
                             "sap.HANADB_HOST" : self.host,
                             "flow.step_name" :"IDoc_Order_Out_EDIDC",
                             "log.source" : "sap.edidc",
+                            "timestamp" : date,
                             "severity" : LogLevel
                         }
                         log_json.append(log_payload)

@@ -10,6 +10,10 @@ from datetime import datetime as dt, timedelta
 
 logger = logging.getLogger(__name__)
 
+def datetime_from_utc_to_local(utc_datetime):
+    now_timestamp = time.time()
+    offset = dt.fromtimestamp(now_timestamp) - dt.utcfromtimestamp(now_timestamp)
+    return utc_datetime + offset
 
 class SapHanaDB_VBAK(RemoteBasePlugin):
 
@@ -81,7 +85,7 @@ class SapHanaDB_VBAK(RemoteBasePlugin):
 
     def doRequest(self, connection):
         logger.info("doing request")
-        date_now = dt.now()
+        date_now = dt.utcnow()
         StartTime = date_now - timedelta(minutes=2)
         EndTime = date_now - timedelta(minutes=1)
         logger.debug('starttime = '+StartTime.strftime("%H%M%S"))
@@ -131,11 +135,13 @@ class SapHanaDB_VBAK(RemoteBasePlugin):
                         YYEDI_CM_MSGST_69 = row[3]
                         ERDAT = row[4]
                         ERZET = row[5]
-                        date = ""+ERDAT[0:4]+"-"+ERDAT[4:6]+"-"+ERDAT[6:8]+" "+ERZET[0:2]+":"+ERZET[2:4]+":"+ERZET[4:6]
+                        date = ""+ERDAT[0:4]+"-"+ERDAT[4:6]+"-"+ERDAT[6:8]+"T"+ERZET[0:2]+":"+ERZET[2:4]+":"+ERZET[4:6]
+                        dt_date = dt.strptime(date, "%Y-%m-%dT%H:%M:%S")
+                        date_local = datetime_from_utc_to_local(dt_date)
                         log_content = { 
                             "salesforce.BusinessDocumentNumber" : YYEDI_CM_HUB_PO_NUMBER,
                             "sap.vbak.num_command" : VBELN,
-                            "timestamp" : date,
+                            "timestamp" : str(date_local),
                             "sap.vbak.YYEDI_CM_MSGST_51" : YYEDI_CM_MSGST_51,
                             "sap.vbak.YYEDI_CM_MSGST_69" : YYEDI_CM_MSGST_69
                         }
@@ -151,6 +157,7 @@ class SapHanaDB_VBAK(RemoteBasePlugin):
                             "sap.HANADB_HOST" : self.host,
                             "flow.step_name" :"Sales_Document_Creation_in_VBAK",
                             "log.source" : "sap.vbak",
+                            "timestamp" : date,
                             "severity" : LogLevel
                         }
                         log_json.append(log_payload)

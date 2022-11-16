@@ -6,9 +6,15 @@ import logging
 import base64
 import os
 import re
+import time
 from datetime import datetime as dt, timedelta
 
 logger = logging.getLogger(__name__)
+
+def datetime_from_local_to_utc(local_datetime):
+    now_timestamp = time.time()
+    offset = dt.fromtimestamp(now_timestamp) - dt.utcfromtimestamp(now_timestamp)
+    return local_datetime - offset
 
 CURRENT_FILE_PATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -266,6 +272,7 @@ class SapScpi(RemoteBasePlugin):
                 if responseErrorValue != None and responseErrorValue != '@Error':
                     log_content['ErrorMessage'] = responseErrorValue
 
+            date_utc = datetime_from_local_to_utc(LogStart)
             log_payload = {
                 "content" : json.dumps(log_content),
                 "sap.cpi.IntegrationFlowName" : IntegrationFlowName,
@@ -276,6 +283,7 @@ class SapScpi(RemoteBasePlugin):
                 "sap.cpi.Server" : self.scpi_server,
                 "flow.step_name" : IntegrationFlowName,
                 "log.source" : "sap.cpi",
+                "timestamp" : date_utc,
                 "severity" : LogLevel
             }
             if Id not in self.previous_lines_sent:
