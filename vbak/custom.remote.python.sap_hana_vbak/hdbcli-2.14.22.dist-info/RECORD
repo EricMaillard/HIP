@@ -1,0 +1,14 @@
+hdbcli-2.14.22.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+hdbcli-2.14.22.dist-info/LICENSE,sha256=UjY2_1FXajJYmo35dYTdpqbYjJ7bntyi9_9KcjO-egs,12570
+hdbcli-2.14.22.dist-info/METADATA,sha256=Jqv7_cpFORBkPzcaohmop_iMGPC4-OJQ3HFL1dPeGso,6184
+hdbcli-2.14.22.dist-info/RECORD,,
+hdbcli-2.14.22.dist-info/REQUESTED,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0
+hdbcli-2.14.22.dist-info/WHEEL,sha256=6xPFv25n-VSwYBtbfi5Fo9Zek1mKRR_7-Dw-QC5EkiQ,108
+hdbcli-2.14.22.dist-info/top_level.txt,sha256=8LbnTZeduoYdRMjEGsfW-zEnFYceyInSnjZftZDOZuw,16
+hdbcli/__init__.py,sha256=_ll-o44uQwPFdPLDnms-UGhUXjO3bib1ZMprz9zLBMw,151
+hdbcli/__pycache__/__init__.cpython-38.pyc,,
+hdbcli/__pycache__/dbapi.cpython-38.pyc,,
+hdbcli/__pycache__/resultrow.cpython-38.pyc,,
+hdbcli/dbapi.py,sha256=jdRxlVKCeOeVCZ8xiPDWOUCWqQTKKLi7viPo8pg0P54,3130
+hdbcli/resultrow.py,sha256=VDVuTB4e_dr9I6rMh11BvHdf4oXBWW29C5lRRfDsC0w,47
+pyhdbcli.abi3.so,sha256=UHfBd2GqsnrWcyLDx_vAzjQRp0ILY7m9QbhVoR7FH8Y,31785656

@@ -1,0 +1,101 @@
+{
+    "name": "custom.remote.python.sap_hana_db_edidc",
+    "version": "1.1",
+    "productiveMinVersion": "1.000",
+    "type": "python",
+    "entity": "CUSTOM_DEVICE",
+    "metricGroup": "tech.SAP_HANADB",
+    "technologies": [
+        "SAP_HANADB"
+    ],
+    "source": {
+        "package": "remote_sap_hana_db_edidc",
+        "className": "SapHanaDB_EDIDC",
+        "install_requires": [],
+        "activation": "Remote"
+    },
+    "ui": {
+        "keymetrics": [
+        ],
+        "keycharts": [
+        ],
+        "charts": [
+        ]
+    },
+    "metrics": [
+    ],
+    "properties": [
+        {
+            "key": "host",
+            "type": "String"
+        },
+        {
+            "key": "port",
+            "type": "String"
+        },
+        {
+            "key": "auth_user",
+            "type": "String"
+        },
+        {
+            "key": "auth_password",
+            "type": "Password"
+        },
+        {
+            "key": "dt_tenant_url",
+            "type": "String"
+        },
+        {
+            "key": "dt_token",
+            "type": "Password"
+        },
+        {
+            "key": "debug",
+            "type": "Boolean"
+        }
+    ],
+    "configUI": {
+        "displayName": "SAP HANA DB EDIDC (IDOC)",
+        "properties": [
+            {
+                "key": "host",
+                "displayName": "Host",
+                "displayOrder": 1,
+                "displayHint": ""
+            },
+            {
+                "key": "port",
+                "displayName": "Port",
+                "displayOrder": 2,
+                "displayHint": ""
+            },
+            {
+                "key": "auth_user",
+                "displayName": "Database User",
+                "displayOrder": 3
+            },
+            {
+                "key": "auth_password",
+                "displayName": "Database Password",
+                "displayOrder": 4
+            },
+            {
+                "key": "dt_tenant_url",
+                "displayName": "Dynatrace Tenant URL",
+                "displayHint": "Saas : https://{your-environment-id}.live.dynatrace.com or Managed : https://{your-domain}/e/{your-environment-id}",
+                "displayOrder": 5
+            },
+            {
+                "key": "dt_token",
+                "displayName": "Dynatrace API Token",
+                "displayHint": "You need Ingest logs (logs.ingest) permission assigned to your API token",
+                "displayOrder": 6
+            },
+            {
+                "key": "debug",
+                "displayName": "Debug Logging?",
+                "displayOrder": 7
+            }
+        ]
+    }
+}

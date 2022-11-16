@@ -1,0 +1,10 @@
+{
+    "dt_url": "https://npg01430.live.dynatrace.com",
+    "dt_token": "",
+    "service_name" : "HIP_sales_order",
+    "entry_point_query": "log.source=\"sap.cpi\" AND sap.cpi.integrationflowname=\"bmx-if-sls-salesforce_to_sap_order.create.step1\" AND sap.cpi.salesforce.trigger=\"/event/order_submission_event__e\"",
+    "correlation_id" : "salesforce.businessdocumentnumber",
+    "number_of_steps" : 7,
+    "timeout" : 60,
+    "log_level": "DEBUG"
+}

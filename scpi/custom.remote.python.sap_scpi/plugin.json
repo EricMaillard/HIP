@@ -1,0 +1,126 @@
+{
+  "version": "1.2",
+  "name": "custom.remote.python.sap_scpi",
+  "type": "python",
+  "entity": "CUSTOM_DEVICE",
+  "processTypeNames": [
+    "PYTHON"
+  ],
+  "technologies": [
+    "SAP SCPI"
+  ],
+  "metricGroup": "sap_scpi",
+  "source": {
+    "package": "custom_remote_python_sap_scpi",
+    "className": "SapScpi",
+    "install_requires": [
+      "requests>=2.6.0"
+    ],
+    "activation": "Remote"
+  },
+  "metrics": [
+  ],
+  "ui": {
+    "keymetrics": [
+    ],
+    "keycharts": [
+    ],
+    "charts": [
+    ]
+  },
+  "properties": [
+    {
+      "key": "scpi_server",
+      "type": "String"
+    },
+    {
+      "key": "oauth_url",
+      "type": "String"
+    },
+    {
+      "key": "client_id",
+      "type": "String"
+    },
+    {
+      "key": "secret",
+      "type": "Password"
+    },
+    {
+      "key": "iflow_name",
+      "type": "String"
+    },
+    {
+      "key": "polling_frequency",
+      "type": "Integer",
+      "defaultValue": 1
+    },
+    {
+      "key": "dt_tenant_url",
+      "type": "String"
+    },
+    {
+      "key": "dt_token",
+      "type": "Password"
+    },
+    {
+      "key": "debug",
+      "type": "Boolean",
+      "defaultValue": true
+    }
+  ],
+  "configUI": {
+    "displayName": "SAP SCPI MessageFlow logs",
+    "properties": [
+      {
+        "key": "scpi_server",
+        "displayName": "SCPI Server Domain",
+        "displayOrder": 1,
+        "displayHint": "Example: l4106-tmn.hci.eu1.hana.ondemand.com"
+      },
+      {
+        "key": "oauth_url",
+        "displayName": "OAuth URL to get access token",
+        "displayOrder": 2,
+        "displayHint": "Example: https://oauthasservices-a0080a4e8.hana.ondemand.com/oauth2/api/v1/token"
+      },
+      {
+        "key": "client_id",
+        "displayName": "Client ID",
+        "displayOrder": 3
+      },
+      {
+        "key": "secret",
+        "displayName": "Secret",
+        "displayOrder": 4
+      },
+      {
+        "key": "iflow_name",
+        "displayName": "IFlowName : name of the IFlow for which logs will be collected",
+        "displayOrder": 5
+      },
+      {
+        "key": "polling_frequency",
+        "displayName": "Polling frequency",
+        "displayHint": "In minutes. Default value is 1",
+        "displayOrder": 6
+      },
+      {
+        "key": "dt_tenant_url",
+        "displayName": "Dynatrace Tenant URL",
+        "displayHint": "Saas : https://{your-environment-id}.live.dynatrace.com or Managed : https://{your-domain}/e/{your-environment-id}",
+        "displayOrder": 7
+      },
+      {
+        "key": "dt_token",
+        "displayName": "Dynatrace API Token",
+        "displayHint": "You need Ingest logs (logs.ingest) permission assigned to your API token",
+        "displayOrder": 8
+      },
+      {
+        "key": "debug",
+        "displayName": "Enable debug logging",
+        "displayOrder": 9
+      }
+    ]
+  }
+}
