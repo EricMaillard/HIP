@@ -167,10 +167,9 @@ class CreateTraces():
                     utc_dt = dt.utcfromtimestamp(timestamp/1000)
                     if utc_dt < StartTime:
                         keys_to_remove.append(key)
-
                 for key in keys_to_remove:
                     del previous_results[key]
-                    
+
                 # do a log search for each element in the dictionnary logs_to_correlate
                 keys = logs_to_correlate.keys()
                 length = len(keys)
