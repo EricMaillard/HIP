@@ -99,6 +99,11 @@ dtheader = {
     'Authorization': 'Api-Token '+dt_settings.get("dynatrace_api_token"),
 }
 
+def datetime_from_local_to_utc(local_datetime):
+    now_timestamp = time.time()
+    offset = dt.fromtimestamp(now_timestamp) - dt.utcfromtimestamp(now_timestamp)
+    return local_datetime - offset
+
 while True:
 	log_json = []
 	# create CPI bMx-IF-SLS-Salesforce_TO_SAP_Order.Create.Steo1 log
@@ -111,10 +116,10 @@ while True:
 	print("BusinessDocumentNumber = "+str(BusinessDocumentNumber))
 	ReplayId = randint(1000000, 9999999)
 	date_now = dt.now()
-	LogEnd = date_now.strftime("%Y-%m-%d %H:%M:%S.%f")
-	millisec = randint(50,300)
-	date_start = date_now - timedelta(milliseconds=millisec)
-	LogStart = date_start.strftime("%Y-%m-%d %H:%M:%S.%f")
+	LogStart = date_now.strftime("%Y-%m-%d %H:%M:%S.%f")
+	millisec = randint(800,3000)
+	date_end = date_now + timedelta(milliseconds=millisec)
+	LogEnd = date_end.strftime("%Y-%m-%d %H:%M:%S.%f")
 	SAP_Order_Create_Step1['MessageGuid'] = MessageGuid
 	SAP_Order_Create_Step1['CorrelationId'] = CorrelationId
 	SAP_Order_Create_Step1['TransactionId'] = TransactionId
@@ -129,7 +134,7 @@ while True:
 	else:
 		LogLevel = "ERROR"
 
-	date_now = dt.utcnow()
+	date_utc = datetime_from_local_to_utc(date_end)
 	log_payload = {
 		"content" : json.dumps(SAP_Order_Create_Step1),
 		"sap.cpi.IntegrationFlowName" : "bMx-IF-SLS-Salesforce_TO_SAP_Order.Create.Step1",
@@ -140,13 +145,13 @@ while True:
 		"sap.cpi.Server" : "l4106-tmn.hci.eu1.hana.ondemand.com",
 		"log.source" : "sap.cpi",
 		"flow.step_name" :"bMx-IF-SLS-Salesforce_TO_SAP_Order.Create.Step1",
-		"timestamp" : date_now.strftime("%Y-%m-%dT%H:%M:%S.%f"),
+		"timestamp" : date_utc.strftime("%Y-%m-%dT%H:%M:%S.%f"),
 		"severity" : LogLevel
 	}
 	log_json.append(log_payload)
 
     # wait few milliseconds before creating next log line 
-	value = randint(100, 800)
+	value = millisec + randint(50, 500)
 	time.sleep(value/1000)
 
 	# create CPI bMx-IF-SLS-Salesforce_TO_SAP_Order.Create.Step2 log
@@ -156,9 +161,10 @@ while True:
 	CorrelationId = str(uuid.uuid4())
 	TransactionId = str(uuid.uuid4())
 	date_now = dt.now()
-	LogEnd = date_now.strftime("%Y-%m-%d %H:%M:%S.%f")
-	date_start = date_now - timedelta(milliseconds=10)
-	LogStart = date_start.strftime("%Y-%m-%d %H:%M:%S.%f")
+	LogStart = date_now.strftime("%Y-%m-%d %H:%M:%S.%f")
+	millisec = randint(800,3000)
+	date_end = date_now + timedelta(milliseconds=millisec)
+	LogEnd = date_end.strftime("%Y-%m-%d %H:%M:%S.%f")
 	SAP_Order_Create_Step2['MessageGuid'] = MessageGuid
 	SAP_Order_Create_Step2['CorrelationId'] = CorrelationId
 	SAP_Order_Create_Step2['TransactionId'] = TransactionId
@@ -173,7 +179,7 @@ while True:
 	else:
 		LogLevel = "ERROR"
 
-	date_now = dt.utcnow()
+	date_utc = datetime_from_local_to_utc(date_end)
 	log_payload = {
 		"content" : json.dumps(SAP_Order_Create_Step2),
 		"sap.cpi.IntegrationFlowName" : "bMx-IF-SLS-Salesforce_TO_SAP_Order.Create.Step2",
@@ -184,13 +190,13 @@ while True:
 		"sap.cpi.Server" : "l4106-tmn.hci.eu1.hana.ondemand.com",
 		"log.source" : "sap.cpi",
 		"flow.step_name" :"bMx-IF-SLS-Salesforce_TO_SAP_Order.Create.Step2",
-		"timestamp" : date_now.strftime("%Y-%m-%dT%H:%M:%S.%f"),
+		"timestamp" : date_utc.strftime("%Y-%m-%dT%H:%M:%S.%f"),
 		"severity" : LogLevel
 	}
 	log_json.append(log_payload)
 
     # wait few milliseconds before creating next log line 
-	value = randint(100, 800)
+	value = millisec + randint(50, 500)
 	time.sleep(value/1000)
 
 	# create CPI IDoc ORDERS (in > ERP) log
@@ -232,6 +238,7 @@ while True:
 	# create Document de vente log
 	print("create Document de vente log")
 	vbeln = randint(100000,999999)
+	date_now = dt.now()
 	date = date_now.strftime("%Y-%m-%d %H:%M:%S.%f")
 	YYEDI_CM_MSGST_51 = ""
 	YYEDI_CM_MSGST_69 = ""
@@ -305,12 +312,13 @@ while True:
 	MessageGuid = str(uuid.uuid4())
 	CorrelationId = str(uuid.uuid4())
 	TransactionId = str(uuid.uuid4())
-	date_now = dt.now()
 	sap_IDocNumber = randint(100000,999999)
 	sap_SalesArea = "sales_area"
-	LogEnd = date_now.strftime("%Y-%m-%d %H:%M:%S.%f")
-	date_start = date_now - timedelta(milliseconds=10)
-	LogStart = date_start.strftime("%Y-%m-%d %H:%M:%S.%f")
+	date_now = dt.now()
+	LogStart = date_now.strftime("%Y-%m-%d %H:%M:%S.%f")
+	millisec = randint(800,3000)
+	date_end = date_now + timedelta(milliseconds=millisec)
+	LogEnd = date_end.strftime("%Y-%m-%d %H:%M:%S.%f")
 	SAP_Order_Acknowledge_Step1['MessageGuid'] = MessageGuid
 	SAP_Order_Acknowledge_Step1['CorrelationId'] = CorrelationId
 	SAP_Order_Acknowledge_Step1['TransactionId'] = TransactionId
@@ -327,7 +335,7 @@ while True:
 	else:
 		LogLevel = "ERROR"
 
-	date_now = dt.utcnow()
+	date_utc = datetime_from_local_to_utc(date_end)
 	log_payload = {
 		"content" : json.dumps(SAP_Order_Acknowledge_Step1),
 		"sap.cpi.IntegrationFlowName" : "bMx-IF-SLS-SAP_TO_Salesforce_Order.Acknowledge.Step1",
@@ -338,13 +346,13 @@ while True:
 		"sap.cpi.Server" : "l4106-tmn.hci.eu1.hana.ondemand.com",
 		"log.source" : "sap.cpi",
 		"flow.step_name" :"bMx-IF-SLS-SAP_TO_Salesforce_Order.Acknowledge.Step1",
-		"timestamp" : date_now.strftime("%Y-%m-%dT%H:%M:%S.%f"),
+		"timestamp" : date_utc.strftime("%Y-%m-%dT%H:%M:%S.%f"),
 		"severity" : LogLevel
 	}
 	log_json.append(log_payload)
 
     # wait few milliseconds before creating next log line 
-	value = randint(100, 800)
+	value = millisec + randint(50, 500)
 	time.sleep(value/1000)
 
 	# create CPI bMx-IF-SLS-SAP_TO_Salesforce_Order.Acknowledge.Step2 log
@@ -354,9 +362,10 @@ while True:
 	CorrelationId = str(uuid.uuid4())
 	TransactionId = str(uuid.uuid4())
 	date_now = dt.now()
-	LogEnd = date_now.strftime("%Y-%m-%d %H:%M:%S.%f")
-	date_start = date_now - timedelta(milliseconds=10)
-	LogStart = date_start.strftime("%Y-%m-%d %H:%M:%S.%f")
+	LogStart = date_now.strftime("%Y-%m-%d %H:%M:%S.%f")
+	millisec = randint(800,3000)
+	date_end = date_now + timedelta(milliseconds=millisec)
+	LogEnd = date_end.strftime("%Y-%m-%d %H:%M:%S.%f")
 	SAP_Order_Acknowledge_Step2['MessageGuid'] = MessageGuid
 	SAP_Order_Acknowledge_Step2['CorrelationId'] = CorrelationId
 	SAP_Order_Acknowledge_Step2['TransactionId'] = TransactionId
@@ -373,7 +382,7 @@ while True:
 	else:
 		LogLevel = "ERROR"
 
-	date_now = dt.utcnow()
+	date_utc = datetime_from_local_to_utc(date_end)
 	log_payload = {
 		"content" : json.dumps(SAP_Order_Acknowledge_Step2),
 		"sap.cpi.IntegrationFlowName" : "bMx-IF-SLS-SAP_TO_Salesforce_Order.Acknowledge.Step2",
@@ -384,10 +393,12 @@ while True:
 		"sap.cpi.Server" : "l4106-tmn.hci.eu1.hana.ondemand.com",
 		"log.source" : "sap.cpi",
 		"flow.step_name" :"bMx-IF-SLS-SAP_TO_Salesforce_Order.Acknowledge.Step2",
-		"timestamp" : date_now.strftime("%Y-%m-%dT%H:%M:%S.%f"),
+		"timestamp" : date_utc.strftime("%Y-%m-%dT%H:%M:%S.%f"),
 		"severity" : LogLevel
 	}
 	log_json.append(log_payload)
+	value = millisec + randint(50, 500)
+	time.sleep(value/1000)
 
 	print("send logs to url = "+url)
 	print(log_json)
