@@ -274,7 +274,7 @@ class SapScpi(RemoteBasePlugin):
                 if responseErrorValue != None and responseErrorValue != '@Error':
                     log_content['ErrorMessage'] = responseErrorValue
 
-            date_utc = datetime_from_local_to_utc(LogStart)
+            date_utc = datetime_from_local_to_utc(LogEnd)
             log_payload = {
                 "content" : json.dumps(log_content),
                 "sap.cpi.IntegrationFlowName" : IntegrationFlowName,
