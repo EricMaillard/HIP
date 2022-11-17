@@ -158,7 +158,7 @@ class SapHanaDB_EDIDC(RemoteBasePlugin):
                             "sap.HANADB_HOST" : self.host,
                             "flow.step_name" :"IDoc_Order_In_EDIDC",
                             "log.source" : "sap.edidc",
-                            "timestamp" : date.strftime("%Y-%m-%dT%H:%M:%S.%f"),
+                            "timestamp" : dt_date.strftime("%Y-%m-%dT%H:%M:%S.%f"),
                             "severity" : LogLevel
                         }
                         log_json.append(log_payload)
@@ -205,7 +205,7 @@ class SapHanaDB_EDIDC(RemoteBasePlugin):
                             "sap.HANADB_HOST" : self.host,
                             "flow.step_name" :"IDoc_Order_Out_EDIDC",
                             "log.source" : "sap.edidc",
-                            "timestamp" : date.strftime("%Y-%m-%dT%H:%M:%S.%f"),
+                            "timestamp" : dt_date.strftime("%Y-%m-%dT%H:%M:%S.%f"),
                             "severity" : LogLevel
                         }
                         log_json.append(log_payload)
