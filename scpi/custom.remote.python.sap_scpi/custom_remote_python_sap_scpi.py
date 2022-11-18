@@ -173,6 +173,7 @@ class SapScpi(RemoteBasePlugin):
         url = "https://"+self.scpi_server+"/api/v1/MessageProcessingLogs('"+id+"')/ErrorInformation/$value"
         logger.info(url)
         try:
+            response = None
             response = requests.get(url, headers=headers, timeout=15)
             logger.info(f'Response code: {response.status_code}')
         except requests.exceptions.RequestException as e:
@@ -180,7 +181,7 @@ class SapScpi(RemoteBasePlugin):
             return '@Error' # The request failed
         
         if response and response.status_code == 200:
-            return response.text()
+            return response.text
         elif response and response.status_code == 204:
             return None
         else:
@@ -302,6 +303,6 @@ class SapScpi(RemoteBasePlugin):
                             )
         self.previous_lines_sent.clear()
         for i in range(0, len(id_array)):
-            self.previous_lines_sent[i] = id_array[i];     
+            self.previous_lines_sent.append(id_array[i]);     
 
 
