@@ -80,7 +80,7 @@ def queryDynatraceAPI(uri, token):
 
 class CreateTraces():
 
-    executor = ThreadPoolExecutor(max_workers=20)
+    executor = ThreadPoolExecutor(max_workers=50)
 
     def __init__(self, argv):
         config_file_path = argv[1]
@@ -95,7 +95,8 @@ class CreateTraces():
         self.dt_token = config_json.get('dt_token')
         self.environment = config_json.get('environment')        
         self.service_name = config_json.get('service_name')        
-        self.entry_point_query = config_json.get('entry_point_query')        
+        self.entry_point_query = config_json.get('entry_point_query')
+        self.log_sources_to_query = config_json.get('log_sources_to_query')
         self.correlation_id = config_json.get('correlation_id')        
         self.number_of_steps = config_json.get('number_of_steps')        
         self.timeout = config_json.get('timeout')        
@@ -127,7 +128,7 @@ class CreateTraces():
         log_content = logevent.get('content')
         log_content_json = json.loads(log_content)
         # depending on log source, add fields as request headers
-        if log_source == 'sap.cpi':
+        if log_source == 'demo.sap.cpi':
             sap_cpi_server = logevent.get('sap.cpi.server')
             if sap_cpi_server:
                 headers['sap.cpi.server'] = sap_cpi_server
@@ -165,7 +166,7 @@ class CreateTraces():
             if CustomHeaders:
                 headers['CustomHeaders'] = str(CustomHeaders)
 
-        if log_source == 'sap.edidc':
+        if log_source == 'demo.sap.edidc':
             MessageGuid = log_content_json.get('MessageGuid')         
             if MessageGuid:
                 headers['MessageGuid'] = MessageGuid
@@ -182,7 +183,7 @@ class CreateTraces():
             if sap_hanadb_host:
                 headers['sap.hanadb_host'] = sap_hanadb_host
 
-        if log_source == 'sap.vbak':
+        if log_source == 'demo.sap.vbak':
             sap_vbak_num_command = log_content_json.get('sap.vbak.num_command')         
             if sap_vbak_num_command:
                 headers['sap.vbak.num_command'] = sap_vbak_num_command
@@ -233,13 +234,13 @@ class CreateTraces():
                     if i < len(trace_array) - 1:
                         log_source1 = trace_array[i].get('additionalColumns').get('log.source')[0]
                         log_source2 = trace_array[i+1].get('additionalColumns').get('log.source')[0]
-                        if log_source1 == 'sap.cpi':
+                        if log_source1 == 'demo.sap.cpi':
                             LogEnd = headers_array[i].get('LogEnd')         
                             date_end = dt.strptime(LogEnd, "%Y-%m-%d %H:%M:%S.%f")
                         else:
                             ts = headers_array[i].get('timestamp')
                             date_end = dt.strptime(ts, "%Y-%m-%d %H:%M:%S.%f")
-                        if log_source2 == 'sap.cpi':
+                        if log_source2 == 'demo.sap.cpi':
                             LogStart = headers_array[i+1].get('LogStart')         
                             date_start = dt.strptime(LogStart, "%Y-%m-%d %H:%M:%S.%f")
                         else:
@@ -264,7 +265,7 @@ class CreateTraces():
         url = 'http://'+log_source+'/'+method_name+'?'
 
         duration = 1/1000
-        if log_source == 'sap.cpi':
+        if log_source == 'demo.sap.cpi':
             date_start = dt.strptime(headers.get('LogStart'), "%Y-%m-%d %H:%M:%S.%f")
             date_end = dt.strptime(headers.get('LogEnd'), "%Y-%m-%d %H:%M:%S.%f")
             delta = date_end - date_start
@@ -326,6 +327,8 @@ class CreateTraces():
                 keys = logs_to_correlate.keys()
                 length = len(keys)
                 query = ""
+                for log_source_to_query in self.log_sources_to_query:
+                    query = query + 'log.source="'+log_source_to_query+'" OR '
                 cnt = 0
                 for correlation_id in keys:
                     if cnt < length-1:
@@ -370,7 +373,7 @@ class CreateTraces():
 
                 # generate traces for correlation_id_in_timeout
                 for id, value in correlation_id_in_timeout.items():
-                    logger.info("createTrace for id "+id)
+                    logger.info("createTrace for id in timeout "+id)
                     self.executor.submit(self.createTrace, (value))
 
                 # wait until next minute

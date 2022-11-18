@@ -143,7 +143,7 @@ while True:
 		"sap.cpi.Receiver" : None,
 		"sap.cpi.Sender" : None,
 		"sap.cpi.Server" : "l4106-tmn.hci.eu1.hana.ondemand.com",
-		"log.source" : "sap.cpi",
+		"log.source" : "demo.sap.cpi",
 		"flow.step_name" :"bMx-IF-SLS-Salesforce_TO_SAP_Order.Create.Step1",
 		"timestamp" : date_utc.strftime("%Y-%m-%dT%H:%M:%S.%f"),
 		"severity" : LogLevel
@@ -188,7 +188,7 @@ while True:
 		"sap.cpi.Receiver" : None,
 		"sap.cpi.Sender" : None,
 		"sap.cpi.Server" : "l4106-tmn.hci.eu1.hana.ondemand.com",
-		"log.source" : "sap.cpi",
+		"log.source" : "demo.sap.cpi",
 		"flow.step_name" :"bMx-IF-SLS-Salesforce_TO_SAP_Order.Create.Step2",
 		"timestamp" : date_utc.strftime("%Y-%m-%dT%H:%M:%S.%f"),
 		"severity" : LogLevel
@@ -224,7 +224,7 @@ while True:
 		"sap.edidc.SNDPRN" : "0009000510",
 		"sap.edidc.MESCOD" : "CRM",
 		"sap.HANADB_HOST" : "frox4114",
-		"log.source" : "sap.edidc",
+		"log.source" : "demo.sap.edidc",
 		"flow.step_name" :"IDoc_Order_In_EDIDC",
 		"timestamp" : date_now.strftime("%Y-%m-%dT%H:%M:%S.%f"),
 		"severity" : LogLevel
@@ -260,7 +260,7 @@ while True:
 		"content" : json.dumps(log_content),
 		"sap.vbak.BSARK" : "018",
 		"sap.HANADB_HOST" : "frox4114",
-		"log.source" : "sap.vbak",
+		"log.source" : "demo.sap.vbak",
 		"flow.step_name" :"Sales_Document_Creation_in_VBAK",
 		"timestamp" : date_now.strftime("%Y-%m-%dT%H:%M:%S.%f"),
 		"severity" : LogLevel
@@ -295,7 +295,7 @@ while True:
 		"sap.edidc.SNDPRN" : "0009000510",
 		"sap.edidc.MESCOD" : "CRM",
 		"sap.HANADB_HOST" : "frox4114",
-		"log.source" : "sap.edidc",
+		"log.source" : "demo.sap.edidc",
 		"flow.step_name" :"IDoc_Order_Out_EDIDC",
 		"timestamp" : date_now.strftime("%Y-%m-%dT%H:%M:%S.%f"),
 		"severity" : LogLevel
@@ -344,7 +344,7 @@ while True:
 		"sap.cpi.Receiver" : None,
 		"sap.cpi.Sender" : None,
 		"sap.cpi.Server" : "l4106-tmn.hci.eu1.hana.ondemand.com",
-		"log.source" : "sap.cpi",
+		"log.source" : "demo.sap.cpi",
 		"flow.step_name" :"bMx-IF-SLS-SAP_TO_Salesforce_Order.Acknowledge.Step1",
 		"timestamp" : date_utc.strftime("%Y-%m-%dT%H:%M:%S.%f"),
 		"severity" : LogLevel
@@ -391,7 +391,7 @@ while True:
 		"sap.cpi.Receiver" : None,
 		"sap.cpi.Sender" : None,
 		"sap.cpi.Server" : "l4106-tmn.hci.eu1.hana.ondemand.com",
-		"log.source" : "sap.cpi",
+		"log.source" : "demo.sap.cpi",
 		"flow.step_name" :"bMx-IF-SLS-SAP_TO_Salesforce_Order.Acknowledge.Step2",
 		"timestamp" : date_utc.strftime("%Y-%m-%dT%H:%M:%S.%f"),
 		"severity" : LogLevel
