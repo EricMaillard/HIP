@@ -289,6 +289,8 @@ class SapScpi(RemoteBasePlugin):
                 "timestamp" : date_utc.strftime("%Y-%m-%dT%H:%M:%S.%f"),
                 "severity" : LogLevel
             }
+            if log_content.get('ErrorMessage') != None:
+                log_payload['flow.error_message'] = log_content.get('ErrorMessage')
             if Id not in self.previous_lines_sent:
                 log_json.append(log_payload)
                 id_array.append(Id)
