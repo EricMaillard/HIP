@@ -160,6 +160,10 @@ class SapHanaDB_VBAK(RemoteBasePlugin):
                             "timestamp" : dt_date.strftime("%Y-%m-%dT%H:%M:%S.%f"),
                             "severity" : LogLevel
                         }
+                        if YYEDI_CM_MSGST_51 != "":
+                            log_payload['flow.error_message'] = YYEDI_CM_MSGST_51
+                        elif YYEDI_CM_MSGST_69 != "":
+                            log_payload['flow.error_message'] = YYEDI_CM_MSGST_69
                         log_json.append(log_payload)
                 else:
                     logger.debug("Nothing to return")
