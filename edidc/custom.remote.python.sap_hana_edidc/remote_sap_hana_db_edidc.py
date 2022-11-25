@@ -85,7 +85,7 @@ class SapHanaDB_EDIDC(RemoteBasePlugin):
 
     def doRequest(self, connection):
         logger.info("doing request")
-        date_now = dt.now()
+        date_now = dt.utcnow()
         StartTime = date_now - timedelta(minutes=2)
         EndTime = date_now - timedelta(minutes=1)
         logger.debug('starttime = '+StartTime.strftime("%H%M%S"))
